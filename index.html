@@ -40,7 +40,7 @@
     <!-- ===== PWA / icons ===== -->
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="عمرك">
@@ -73,7 +73,7 @@
     })();
     </script>
 
-    <!-- google-fonts:start (removed automatically by tools/download-fonts.py once Cairo is self-hosted) -->
+    <!-- google-fonts:start (removed automatically by download-fonts.py once Cairo is self-hosted) -->
     <!--
       Early connections. The `crossorigin` attribute must match how the resource
       is fetched: font FILES are CORS requests (fonts.gstatic.com needs it), while
@@ -85,10 +85,10 @@
 
     <!-- Local CSS is tiny and drives first paint, so it stays render-blocking on purpose -->
     <link rel="stylesheet" href="style.css">
-    <!-- Self-hosted Cairo: empty until you run tools/download-fonts.py (see fonts/fonts.css) -->
-    <link rel="stylesheet" href="fonts/fonts.css">
+    <!-- Self-hosted Cairo: empty until you run download-fonts.py (see fonts/fonts.css) -->
+    <link rel="stylesheet" href="fonts.css">
 
-    <!-- google-fonts-css:start (removed automatically by tools/download-fonts.py once Cairo is self-hosted) -->
+    <!-- google-fonts-css:start (removed automatically by download-fonts.py once Cairo is self-hosted) -->
     <!--
       Google Fonts without blocking the first paint (used until the self-hosted font is added):
       - display=swap in the URL makes every @font-face use font-display: swap
