@@ -1,0 +1,10 @@
+{
+  "name": "age-calculator1",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
