@@ -77,12 +77,37 @@ function getFormatters(lang) {
 
 /* ---------- Date maths ---------- */
 
-/** Calendar difference birth -> at (same borrow rules the counter always used). */
+/**
+ * Calendar age in local dates, ignoring the time of day.
+ * Count complete months from the original birth day, clamping that day to
+ * the last day of a shorter month (Jan 31 -> Feb 28, Feb 29 -> Feb 28).
+ * Then count calendar days from that anchor, not elapsed 24-hour periods:
+ * local days can be 23 or 25 hours when the timezone changes its clocks.
+ * Callers validate that birth is on or before at.
+ */
 function ymd(birth, at) {
-    let y = at.getFullYear() - birth.getFullYear(), m = at.getMonth() - birth.getMonth(), d = at.getDate() - birth.getDate();
-    if (d < 0) { d += new Date(at.getFullYear(), at.getMonth(), 0).getDate(); m--; }
-    if (m < 0) { m += 12; y--; }
-    return { y, m, d };
+    const by = birth.getFullYear(), bm = birth.getMonth(), bd = birth.getDate();
+    const ay = at.getFullYear(), am = at.getMonth(), ad = at.getDate();
+    let months = (ay - by) * 12 + am - bm;
+
+    // Use UTC only as a timezone-free representation of local calendar parts.
+    // setUTCFullYear also avoids Date.UTC's special handling of years 0..99.
+    const calendarDay = (y, m, d) => {
+        const date = new Date(0);
+        date.setUTCFullYear(y, m, d);
+        return date;
+    };
+    const anchorFor = (count) => {
+        const first = calendarDay(by, bm + count, 1);
+        const last = calendarDay(first.getUTCFullYear(), first.getUTCMonth() + 1, 0);
+        return calendarDay(first.getUTCFullYear(), first.getUTCMonth(), Math.min(bd, last.getUTCDate()));
+    };
+
+    const today = calendarDay(ay, am, ad);
+    let anchor = anchorFor(months);
+    if (anchor > today) anchor = anchorFor(--months);
+    const d = Math.round((today - anchor) / 86400000);
+    return { y: Math.floor(months / 12), m: months % 12, d };
 }
 
 const dayNumber = (d) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000;
