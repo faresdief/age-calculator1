@@ -13,7 +13,7 @@
    Release checklist: bump VERSION below whenever you deploy a new set of files.
    ========================================================================== */
 
-const VERSION = 'v2.0.1';
+const VERSION = 'v2.0.2';
 const CACHE = 'age-dashboard-' + VERSION;
 
 const SHELL = [
